@@ -1,0 +1,221 @@
+<ul class="products">
+  <li *ngFor="let p of products; let i=index;">
+    <a routerLink="/product-details/{{p.ITEM_NUMBER}}">
+      <span class="badge">{{i+1}}</span> {{p.DESCRIPTION}}
+    </a>
+    
+  </li>
+</ul>
+
+<div *ngIf="product" class="products">
+    <h2>{{product.DESCRIPTION | uppercase}} Details</h2>
+    <div><span>Description: </span>{{product.LONG_DESCRIPTION}}</div>
+    <!--<div><span>Price: </span>{{product.prod_price}}</div>
+    <div><span>Update Date: </span>{{product.updated_at | date}}</div>
+    -->
+  </div>
+
+<p-table  [value]="products">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ITEM_NUMBER</th>
+      <th>DESCRIPTION</th>
+      <th>LONG_DESCRIPTION</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-wikiList>
+    <tr>
+      <td>{{products.ITEM_NUMBER}}</td>
+      <td>{{products.DESCRIPTION}}</td>
+      <td>{{products.LONG_DESCRIPTION}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!--
+<ul class="products">
+  <li *ngFor="let p of products; let i=index;">
+    <a routerLink="/product-details/{{p.ITEM_NUMBER}}">
+      <span class="badge">{{i+1}}</span> {{p.DESCRIPTION}}
+    </a>
+    
+  </li>
+</ul>
+-->
+
+var AWS = require('ibm-cos-sdk');
+var util = require('util');
+
+var config = {
+    endpoint: 'https://s3.us-south.cloud-object-storage.appdomain.cloud',
+    apiKeyId: '_bAzHuCAN1yPz4Rcg5CZY1Tbp0UOpshuMhpoNkIvJAa3',
+    serviceInstanceId: 'crn:v1:bluemix:public:iam-identity::a/693fe8ead49b44b192004113d21b15c2::serviceid:ServiceId-f6d85b01-d45a-4d92-831d-3e3efa44bb3c',
+};
+
+var cos = new AWS.S3(config);
+
+
+
+/*getProductImage(id):Observable<any> {
+    return this.http.get(endpoint1 + 'image-manual-response?id='+id).pipe(
+      map(this.extractData));
+    
+  }*/
+
+
+<div class="card-group" *ngFor="let p of products;">
+  <div class="card">
+    <img src='http://localhost:8080/products/image-manual-response?id={{p.item_number}}' class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{p.description}}</h5>
+      <p class="card-text">{{p.long_description}}</p>
+      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    </div>
+  </div>
+  </div>
+
+
+
+
+  <!--
+<table  *ngFor="let p of products;" >
+<Tr>
+  <div class="card" style="width: 18rem;">
+    <img src='http://localhost:8080/products/image-manual-response?id={{p.item_number}}' class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{p.description}}</h5>
+      <p class="card-text">{{p.long_description}}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+</Tr>-->
+   <!--<tr class="card">
+      <td>
+      <img class="circle-link" height="170" width="200" src='http://localhost:8080/products/image-manual-response?id={{p.item_number}}'/>
+      </td>
+      <td align="top"><table boder=0 ><tr>
+      <td class="datastyle"> {{p.description}}</td></tr>
+      <tr>
+      <td class="datastyle"> {{p.long_description}}</td></tr>
+      <tr>
+      <td class="datastyle"> {{p.sku_attribute1}}: {{p.sku_attribute_value1}}</td>
+    </tr>
+    <tr>
+      <td class="datastyle"> {{p.sku_attribute2}}: {{p.sku_attribute_value2}}</td>
+    </tr>
+    <tr>
+      <td class="datastyle"> Price: {{p.list_price}}</td>
+    </tr>
+      </table>
+    </td>
+    </tr>
+</table>-->
+
+
+
+
+
+<div fxLayout="row">
+<div fxFlex="65">
+  <div class="card" *ngFor="let p of products.slice(0, products.length / 2)">
+    <img src='http://localhost:8080/products/image-manual-response?id={{p.item_number}}' class="card-img-top" alt="...">
+    <div class="card-body">
+      <p>{{ p.description }}</p>
+      <p>{{ p.long_description }}</p>
+    </div>
+  </div>
+</div>
+<div fxFlex="35">
+  <div *ngFor="let item of products.slice(products.length / 2, products.length)">
+    <img src='http://localhost:8080/products/image-manual-response?id={{p.item_number}}' class="card-img-top" alt="...">
+    <div class="card-body">
+      <p>{{ p.description}}</p>
+      <p>{{ p.long_description }}</p>
+    </div>  
+  </div>
+</div>
+</div>
+
+
+
+<div *ngFor="let item of products; let i = index">
+  <div *ngIf="i % 3 == 0" class="row">
+   
+    <div class="card" *ngIf="i + 1 < products.length">
+      <img src='http://localhost:8080/products/image-manual-response?id={{item.item_number}}' class="card-img-top" alt="...">
+      {{ products[i + 1].description }}
+
+    </div>
+    <div *ngIf="i + 2 < products.length">
+      {{ products[i + 2].description }}
+    </div>
+
+    <div *ngIf="i + 3 < products.length">
+      {{ products[i + 3].description }}
+    </div>
+     
+  </div>
+</div>
+
+
+
+<div style="max-width: 18rem;" *ngFor="let c of category;">
+  <a style="text-decoration: none;"  routerLink="/products/{{c.CATALOGUE_CATEGORY}}">
+    <span class="badge badge-secondary">{{c.DESCRIPTION}}   </span> 
+  </a>
+</div>
+
+
+
+<div id="carouselExample1" class="carousel slide" data-ride="carousel">
+ 
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExample1" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExample1" data-slide-to="1"></li>
+        <li data-target="#carouselExample1" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+              
+        <img class="d-block w-75" src="assets/image-men-dress.jpg"  alt="First slide">
+        <div class="carousel-caption d-none d-md-block">
+            <h5>First slide label</h5>
+            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          </div>
+      </div>
+      
+      
+      <div class="carousel-item">
+        <img class="d-block w-75" src="assets/image-woman-dress.jpg" alt="Second slide">
+        <div class="carousel-caption d-none d-md-block">
+            <h5>Second slide label</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+      </div>
+      
+      
+      <div class="carousel-item">
+          <div class="card mb-2">
+        <img class="d-block w-75" src="assets/image-men-coat.jpg"  alt="Third slide">
+        <div class="carousel-caption d-none d-md-block">
+            <h5>Third slide label</h5>
+            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+        </div>
+    </div>
+       </div>
+    </div>
+
+
+    <a class="carousel-control-prev" href="#carouselExample1" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExample1" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  
+
+</div>

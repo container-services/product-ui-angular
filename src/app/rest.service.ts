@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { AppConfigService } from './providers/app-config.service';
 
-//const endpoint = 'http://localhost:3000/api/v1/';
-const endpoint = 'http://product-api-ibm-hr-systems-exec-comp.gamification-d3c0cb24e2b77f6869027abe3de4bca3-0001.sng01.containers.appdomain.cloud/api/';
+
+//const endpoint1 = 'http://localhost:8080/products/';
+//const endpoint = 'http://product-api-ibm-hr-systems-exec-comp.gamification-d3c0cb24e2b77f6869027abe3de4bca3-0001.sng01.containers.appdomain.cloud/api/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
@@ -16,21 +18,40 @@ const httpOptions = {
 })
 export class RestService {
 
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient, private config: AppConfigService) { }
+  configvalues :any;
   private extractData(res: Response) {
     let body = res;
+    
     return body || { };
   }
-  getProducts(): Observable<any> {
-    return this.http.get(endpoint + 'getproducts').pipe(
+  getCategory(): Observable<any> {
+    this.configvalues = this.config.getConfig();
+    return this.http.get(this.configvalues["productApiUrl"] + 'getallcategory').pipe(
+      map(this.extractData));
+  }
+  getProducts(catgry): Observable<any> {
+    this.configvalues = this.config.getConfig();
+    return this.http.get(this.configvalues["productApiUrl"] + 'getproductscat/cat/' + catgry).pipe(
+      map(this.extractData));
+  }
+  getProductsSearch(searchtxt): Observable<any> {
+    this.configvalues = this.config.getConfig();
+    return this.http.get(this.configvalues["productApiUrl"] + 'getproducts/search/' + searchtxt).pipe(
+      map(this.extractData));
+  }
+  getProductsBrand(brand): Observable<any> {
+    this.configvalues = this.config.getConfig();
+    return this.http.get(this.configvalues["productApiUrl"] + 'getproductsbrand/brand/' + brand).pipe(
       map(this.extractData));
   }
   getProduct(id): Observable<any> {
-    return this.http.get(endpoint + 'getproducts/' + id).pipe(
+    this.configvalues = this.config.getConfig();
+    return this.http.get(this.configvalues["productApiUrl"] + 'getproducts/id/' + id).pipe(
       map(this.extractData));
-  }
 
+  }
+  
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   

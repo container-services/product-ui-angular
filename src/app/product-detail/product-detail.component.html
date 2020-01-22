@@ -1,7 +1,17 @@
-<div *ngIf="product" class="products">
-    <h2>{{product.DESCRIPTION | uppercase}} Details</h2>
-    <div><span>Description: </span>{{product.LONG_DESCRIPTION}}</div>
-    <!--<div><span>Price: </span>{{product.prod_price}}</div>
-    <div><span>Update Date: </span>{{product.updated_at | date}}</div>
-    -->
-  </div>
+
+
+<app-header></app-header>
+  <ul >
+    <li *ngFor="let p of product;">
+      <h2>{{p.description | uppercase}} </h2>
+    <div><span>Description: </span>{{p.long_description}}</div>
+    <div><span>{{p.sku_attribute1}}: </span>{{p.sku_attribute_value1}}</div>
+    <div><span>{{p.sku_attribute2}}: </span>{{p.sku_attribute_value2}}</div>
+    <div><span>Price: $</span>  {{p.list_price}}</div>
+    <img src='http://localhost:8080/products/image-manual-response?id={{p.item_number}}'/>
+      
+    </li>
+  </ul>
+
+  
+  <app-footer></app-footer>
